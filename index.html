@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Juan Sebastián Rojas Penagos</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 :root {
   --ink: #1a1a2e; --slate: #3d3d5c; --muted: #6b6b8d;
@@ -13,9 +15,228 @@
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
 .cv-page { width:210mm; min-height:297mm; max-width:100%; margin:0 auto; background:white; display:grid; grid-template-columns:72mm 1fr; box-shadow:0 4px 40px rgba(0,0,0,.08); position:relative; overflow:hidden; }
-@media print { .cv-page { box-shadow:none; page-break-after:always; } .portfolio-section, .nav-bar { display:none !important; } }
+/* ═══════════════════ PRINT STYLES ═══════════════════ */
+@media print {
+  html, body { background:white !important; margin:0 !important; padding:0 !important; width:100% !important; }
+  body { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
+
+  /* ── High-quality font rendering for PDF ── */
+  * {
+    -webkit-font-smoothing:subpixel-antialiased !important;
+    -moz-osx-font-smoothing:auto !important;
+    text-rendering:optimizeLegibility !important;
+    font-smooth:always !important;
+  }
+  /* Force vector text, not bitmap */
+  body { font-kerning:normal !important; font-feature-settings:"kern" 1,"liga" 1 !important; }
+
+  /* Hide UI elements */
+  .nav-bar, .print-fab, .print-overlay { display:none !important; }
+  body.hide-portfolio-print .portfolio-section { display:none !important; }
+
+  /* ── CV PAGE: fill entire sheet edge-to-edge ── */
+  .cv-page {
+    box-shadow:none !important;
+    width:100% !important; max-width:100% !important;
+    min-height:100vh !important;
+    margin:0 !important; padding:0 !important;
+    display:grid !important; grid-template-columns:72mm 1fr !important;
+    page-break-after:always !important;
+    overflow:hidden !important;
+  }
+
+  /* ── BASE print spacing (tuned for Legal / Oficio — most room) ── */
+  .cv-sidebar {
+    -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
+    padding:12mm 6mm 8mm 6mm !important;
+    gap:3mm !important;
+  }
+  .cv-main { padding:9mm 8mm 6mm 8mm !important; gap:3mm !important; }
+
+  /* +2pt font boost */
+  .cv-name-side h1 { font-size:17pt !important; }
+  .cv-name-side .subtitle { font-size:10pt !important; }
+  .side-title { font-size:9pt !important; }
+  .side-item { font-size:9.5pt !important; line-height:1.45 !important; }
+  .skill-bar-label { font-size:9pt !important; }
+  .lang-row { font-size:9.5pt !important; }
+  .main-header h2 { font-size:13pt !important; }
+  .main-header .tagline { font-size:9.5pt !important; line-height:1.5 !important; }
+  .section-title { font-size:9pt !important; }
+  .exp-role { font-size:10.5pt !important; }
+  .exp-date { font-size:8.5pt !important; }
+  .exp-company { font-size:9.5pt !important; }
+  .exp-bullets li { font-size:9pt !important; line-height:1.45 !important; }
+  .edu-title { font-size:10pt !important; }
+  .edu-inst { font-size:9pt !important; }
+  .cert-item { font-size:8.5pt !important; line-height:1.4 !important; }
+  .pub-item { font-size:9pt !important; line-height:1.45 !important; }
+
+  /* Elegant base spacing */
+  .cv-photo { width:48mm !important; height:48mm !important; margin-bottom:2.5mm !important; }
+  .cv-name-side { margin-bottom:1.5mm !important; }
+  .side-section { margin-bottom:2.5mm !important; }
+  .side-title { margin-bottom:1.5mm !important; padding-bottom:0.8mm !important; }
+  .side-item { margin-bottom:1mm !important; }
+  .skill-bar-wrap { margin-bottom:1.5mm !important; }
+  .skill-bar-label { margin-bottom:0.6mm !important; }
+  .lang-row { margin-bottom:0.8mm !important; }
+  .main-header { margin-bottom:1.5mm !important; }
+  .section-title { margin-bottom:2mm !important; }
+  .exp-block { margin-bottom:2.5mm !important; }
+  .exp-bullets { margin-top:0.8mm !important; }
+  .exp-bullets li { margin-bottom:0.6mm !important; }
+  .edu-item { margin-bottom:1.5mm !important; }
+  .cert-grid { gap:1.2mm !important; }
+  .cert-item { padding:0.8mm 0 !important; }
+
+  /* ── PORTFOLIO: well-formatted with breathing room ── */
+  .portfolio-section { display:block !important; max-width:100% !important; padding:0 10mm !important; margin:0 !important; }
+  .port-header { margin-bottom:5mm !important; padding-top:5mm !important; }
+  .port-header h2 { font-size:22pt !important; }
+  .port-header p { font-size:11pt !important; max-width:100% !important; margin-top:2mm !important; }
+  .port-divider { margin:3mm auto 0 !important; }
+
+  /* Categories: generous padding so content has room at page edges after breaks */
+  .port-category { margin-bottom:3mm !important; padding-top:6mm !important; }
+  .port-cat-title { font-size:13pt !important; letter-spacing:2px !important; margin-bottom:3mm !important; }
+  .port-cat-title::before { width:14px !important; }
+
+  /* Cards: 2-column, compact */
+  .port-grid { display:grid !important; grid-template-columns:1fr 1fr !important; gap:3mm !important; margin-bottom:2mm !important; }
+  .port-card { border-radius:2mm !important; overflow:hidden !important; break-inside:avoid !important; page-break-inside:avoid !important; border:0.5pt solid #ccc !important; box-shadow:none !important; margin-top:1mm !important; }
+  .port-card:hover { transform:none !important; box-shadow:none !important; }
+
+  /* Shrink card visuals */
+  .port-img { height:22mm !important; max-height:22mm !important; overflow:hidden !important; }
+  .port-img img { height:100% !important; width:100% !important; object-fit:cover !important; }
+  .port-card > div[style*="height:200px"],
+  .port-card > div[style*="height: 200px"] { height:22mm !important; max-height:22mm !important; min-height:22mm !important; overflow:hidden !important; }
+  .port-card > div[style*="height:200px"] div[style*="JetBrains"],
+  .port-card > div[style*="height: 200px"] div[style*="JetBrains"] { font-size:8pt !important; line-height:1.5 !important; }
+
+  /* Code blocks: normal weight, NOT bold */
+  div[style*="JetBrains"] { font-weight:400 !important; }
+  div[style*="JetBrains"] span { font-weight:400 !important; }
+
+  .port-card-body { padding:2mm 3mm !important; }
+  .port-card-body h3 { font-size:10pt !important; margin-bottom:1mm !important; line-height:1.2 !important; }
+  .port-card-body p { font-size:8.5pt !important; line-height:1.3 !important; display:-webkit-box !important; -webkit-line-clamp:3 !important; -webkit-box-orient:vertical !important; overflow:hidden !important; }
+  .port-tags { margin-top:1.5mm !important; gap:1.5mm !important; }
+  .port-tag { font-size:7.5pt !important; padding:0.5mm 2mm !important; border-radius:3mm !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .port-link { font-size:8.5pt !important; margin-top:1.5mm !important; gap:1mm !important; }
+  .port-link svg { width:2.5mm !important; height:2.5mm !important; }
+
+  /* ── DYNA / Research card: full-width, show ALL content, never split ── */
+  .port-card[style*="grid-column"] { grid-column:1/-1 !important; overflow:visible !important; break-inside:avoid !important; page-break-inside:avoid !important; }
+  .port-card[style*="grid-column"] > div[style*="height"],
+  .port-card[style*="grid-column"] > div[style*="height: 200px"] {
+    height: auto !important; max-height: none !important; min-height: auto !important; overflow: visible !important;
+  }
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] {
+    grid-template-columns:60mm 1fr !important; min-height:auto !important;
+  }
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] > div[style*="background"] {
+    padding:4mm !important;
+  }
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] > div[style*="background"] div[style*="Playfair"] {
+    font-size:24pt !important;
+  }
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] > div[style*="background"] div[style*="11px"] {
+    font-size:8pt !important;
+  }
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] > div[style*="background"] div[style*="10px"] {
+    font-size:7.5pt !important; margin-top:2mm !important; padding:1mm 3mm !important;
+  }
+  .port-card[style*="grid-column"] .port-card-body {
+    padding:3mm 4mm !important; overflow:visible !important;
+  }
+  .port-card[style*="grid-column"] .port-card-body h3 { font-size:11pt !important; line-height:1.3 !important; }
+  .port-card[style*="grid-column"] .port-card-body p {
+    -webkit-line-clamp:unset !important; display:block !important; overflow:visible !important;
+    font-size:8.5pt !important; line-height:1.4 !important;
+  }
+  .port-card[style*="grid-column"] .port-tags { display:flex !important; flex-wrap:wrap !important; }
+  .port-card[style*="grid-column"] .port-link { display:flex !important; }
+
+  /* Certificates grid */
+  .port-cert-grid { display:grid !important; grid-template-columns:1fr 1fr !important; gap:2mm !important; padding-top:1mm !important; }
+  .port-cert-card { padding:1.5mm 2.5mm !important; border-radius:2mm !important; gap:2mm !important; break-inside:avoid !important; page-break-inside:avoid !important; border:0.5pt solid #ccc !important; box-shadow:none !important; margin-top:0.5mm !important; }
+  .port-cert-card:hover { transform:none !important; }
+  .cert-icon-img { width:6mm !important; height:6mm !important; border-radius:1.5mm !important; padding:0.5mm !important; }
+  .port-cert-info h4 { font-size:8.5pt !important; line-height:1.2 !important; }
+  .port-cert-info p { font-size:7.5pt !important; margin-top:0.3mm !important; }
+  .port-cert-info .port-link { font-size:7.5pt !important; margin-top:0.3mm !important; }
+
+  /* Research/publication card link icons */
+  .port-card-body .port-link svg,
+  .port-cert-info .port-link svg { width:2mm !important; height:2mm !important; }
+
+  /* Footer */
+  .portfolio-section > div[style*="text-align:center"] { padding:3mm 0 2mm !important; font-size:9pt !important; }
+
+  /* Links */
+  a { color:var(--accent) !important; text-decoration:none !important; }
+
+  /* Print-only CV link message */
+  .print-cv-link { display:block !important; text-align:center; padding:10px 0 0; font-size:9pt; color:var(--slate); }
+  .print-cv-link a { color:var(--accent) !important; text-decoration:underline !important; }
+
+  /* ── Portfolio: prevent orphaned section titles ── */
+  .port-cat-title { break-after:avoid !important; page-break-after:avoid !important; }
+  .port-category { break-inside:auto !important; }
+  .port-grid, .port-cert-grid { break-before:avoid !important; page-break-before:avoid !important; }
+}
+
+/* Hide print-only CV link on screen */
+.print-cv-link { display:none; }
+
+/* La primera página (CV) se mantiene sin márgenes para ser de borde a borde */
+@page { margin: 0 0 5mm 0; }
+@page :first { margin: 0; }
+
+/* ── Espaciado simulado para las páginas del portafolio ── */
+  #portfolio {
+    padding-top: 1mm !important; 
+    padding-bottom: 5mm !important;
+  }
+
+  /* Aseguramos que las tarjetas no se peguen a los bordes al saltar de página */
+  .port-card {
+    margin-top: 5mm !important;
+    margin-bottom: 5mm !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+.print-fab { position:fixed; bottom:24px; right:24px; width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(15,98,254,.35); z-index:101; display:flex; align-items:center; justify-content:center; transition:transform .2s,box-shadow .2s; }
+.print-fab:hover { transform:scale(1.08); box-shadow:0 6px 24px rgba(15,98,254,.45); }
+.print-fab svg { width:24px; height:24px; }
+.print-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(4px); z-index:200; display:none; align-items:center; justify-content:center; }
+.print-overlay.active { display:flex; }
+.print-modal { background:white; border-radius:16px; padding:32px; width:400px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.print-modal h3 { font-family:'Playfair Display',serif; font-size:22px; font-weight:800; margin-bottom:4px; color:var(--ink); }
+.print-modal .pm-sub { font-size:13px; color:var(--muted); margin-bottom:24px; }
+.pm-group { margin-bottom:18px; }
+.pm-group label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:8px; }
+.pm-group select { width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:14px; color:var(--ink); background:var(--bg); cursor:pointer; }
+.pm-toggle { display:flex; align-items:center; gap:10px; }
+.pm-switch { position:relative; width:44px; height:24px; flex-shrink:0; }
+.pm-switch input { opacity:0; width:0; height:0; }
+.pm-slider { position:absolute; inset:0; background:#ccc; border-radius:12px; cursor:pointer; transition:.3s; }
+.pm-slider::before { content:''; position:absolute; width:18px; height:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.3s; }
+.pm-switch input:checked + .pm-slider { background:var(--accent); }
+.pm-switch input:checked + .pm-slider::before { transform:translateX(20px); }
+.pm-toggle-label { font-size:14px; color:var(--ink); }
+.pm-actions { display:flex; gap:10px; margin-top:26px; }
+.pm-actions button { flex:1; padding:12px; border-radius:10px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; border:none; transition:background .2s; }
+.pm-btn-cancel { background:var(--bg); color:var(--muted); border:1px solid var(--border) !important; }
+.pm-btn-cancel:hover { background:#eee; }
+.pm-btn-print { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; }
+.pm-btn-print:hover { opacity:.9; }
+
 .cv-sidebar { background:linear-gradient(170deg,#0f1b33 0%,#1a2744 40%,#0d1f3c 100%); color:#c8d6e5; padding:22mm 6mm 10mm 6mm; display:flex; flex-direction:column; gap:5mm; }
 .cv-photo { width:50mm; height:50mm; border-radius:50%; object-fit:cover; object-position:center top; border:3px solid rgba(255,255,255,.15); margin:0 auto 3mm; display:block; filter:grayscale(15%); }
 .cv-name-side { text-align:center; margin-bottom:2mm; }
@@ -86,6 +307,16 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
 .port-cert-info p { font-size:11px; color:var(--muted); margin-top:2px; }
 .port-img { height:200px; overflow:hidden; }
 .port-img img { width:100%; height:100%; object-fit:cover; }
+
+/* ═══════ DYNA card responsive: stack vertically on narrow SCREENS only ═══════ */
+@media screen and (max-width:768px) {
+  .port-card[style*="grid-column"] > div[style*="grid-template-columns"] {
+    grid-template-columns:1fr !important;
+  }
+  .port-card[style*="grid-column"] .port-card-body p {
+    display:block !important; overflow:visible !important; -webkit-line-clamp:unset !important;
+  }
+}
 .nav-bar { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:rgba(26,26,46,.92); backdrop-filter:blur(12px); padding:10px 28px; border-radius:40px; display:flex; gap:20px; z-index:100; box-shadow:0 8px 32px rgba(0,0,0,.18); align-items:center; }
 .nav-bar a, .nav-bar button { color:#b0bec5; text-decoration:none; font-size:12px; font-weight:500; letter-spacing:.5px; transition:color .2s; background:none; border:none; cursor:pointer; font-family:inherit; }
 .nav-bar a:hover, .nav-bar button:hover { color:var(--accent2); }
@@ -116,7 +347,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
     <div class="side-section">
       <div class="side-title" data-lang="es">Contacto</div><div class="side-title" data-lang="en">Contact</div>
       <div class="side-item"> Ibagué, Tolima, Colombia</div>
-      <div class="side-item"><a href="mailto:juansebastian48@hotmail.com">juansebastian48@hotmail.com</a></div>
+      <div class="side-item"><a href="/cdn-cgi/l/email-protection#355f40545b4650575446415c545b010d755d5a4158545c591b565a58"><span class="__cf_email__" data-cfemail="e78d9286899482858694938e8689d3dfa78f88938a868e8bc984888a">[email&#160;protected]</span></a></div>
       <div class="side-item"><a href="https://www.linkedin.com/in/juan-sebastian-rojas-penagos-12a943198/">LinkedIn</a></div>
     </div>
     <div class="side-section">
@@ -197,6 +428,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
 
     <div class="section-title" data-lang="es">Certificaciones Destacadas</div><div class="section-title" data-lang="en">Key Certifications</div>
     <div class="cert-grid">
+      <div class="cert-item"><strong>EF SET: C1 ADVANCED 64/100</strong> — EF SET, 2026</div>
       <div class="cert-item"><strong>Google Advanced Data Analytics</strong> — Coursera, 2026</div>
       <div class="cert-item"><strong>Google Data Analytics</strong> — Coursera, 2026</div>
       <div class="cert-item" data-lang="es"><strong>Ruta Análisis y Visualización de Datos</strong> — Platzi, 2026</div><div class="cert-item" data-lang="en"><strong>Data Analysis & Visualization Track</strong> — Platzi, 2026</div>
@@ -218,8 +450,8 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
 <section class="portfolio-section" id="portfolio">
   <div class="port-header">
     <h2 data-lang="es">Portafolio de Proyectos</h2><h2 data-lang="en">Project Portfolio</h2>
-    <p data-lang="es">Ecosistema de herramientas de análisis de datos, automatización y visualización desarrolladas para el Semestre Paz y Región</p>
-    <p data-lang="en">Data analysis, automation, and visualization ecosystem developed for the Peace & Region Semester</p>
+    <p data-lang="es">Ecosistema de herramientas de análisis de datos, automatización y <br>visualización desarrolladas para el Semestre Paz y Región</p>
+    <p data-lang="en">Data analysis, automation, and visualization ecosystem <br> developed for the Peace & Region Semester</p>
     <div class="port-divider"></div>
   </div>
 
@@ -402,7 +634,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;align-items:center;justify-content:center;color:white;font-family:'Playfair Display',serif;font-size:20px;font-weight:800;text-align:center;padding:24px;">
+        <div style="height:200px;background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>item.tipo === <span style="color:#c3e88d">'tech'</span><span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#7ec8e3">let</span> stock = <span style="color:#f0c674">consultarStock</span><span style="color:#94a3b8">(</span>talla<span style="color:#94a3b8">);</span><br>
@@ -425,7 +657,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1b1b2f 0%,#2d132c 50%,#3a1c3f 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1b1b2f 0%,#2d132c 50%,#3a1c3f 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">generarConsolidado</span><span style="color:#94a3b8">(</span>sheet<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#5b8c5a">// PDF automático por docente</span><br>
@@ -447,7 +679,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#0a2239 0%,#132e32 50%,#1a3a3a 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#0a2239 0%,#132e32 50%,#1a3a3a 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#7ec8e3">for</span> <span style="color:#94a3b8">(</span><span style="color:#7ec8e3">let</span> i = <span style="color:#f78c6c">0</span>; i &lt; datos.length; i++<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>datos[i][<span style="color:#f78c6c">0</span>] !== <span style="color:#c3e88d">'Total'</span><span style="color:#94a3b8">) {</span><br>
@@ -469,7 +701,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1a0a2e 0%,#2a1a4e 50%,#1e1247 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1a0a2e 0%,#2a1a4e 50%,#1e1247 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">generarInforme</span><span style="color:#94a3b8">() {</span><br>
 &nbsp;&nbsp;<span style="color:#7ec8e3">const</span> ss = <span style="color:#f0c674">getActiveSpreadsheet</span><span style="color:#94a3b8">();</span><br>
@@ -491,7 +723,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1c1c1c 0%,#2d2d3a 50%,#1a1a2e 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1c1c1c 0%,#2d2d3a 50%,#1a1a2e 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#7ec8e3">for</span> <span style="color:#94a3b8">(</span><span style="color:#7ec8e3">let</span> i = <span style="color:#f78c6c">1</span>; i &lt; datosBD.length; i++<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>fila[<span style="color:#f78c6c">0</span>] === docenteNombre<span style="color:#94a3b8">) {</span><br>
@@ -513,7 +745,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#0b1622 0%,#152238 50%,#1a2e50 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#0b1622 0%,#152238 50%,#1a2e50 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">agendarCalendar</span><span style="color:#94a3b8">(</span>org<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#5b8c5a">// Masivo por organización</span><br>
@@ -576,7 +808,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;align-items:center;justify-content:center;color:white;font-family:'Playfair Display',serif;font-size:20px;font-weight:800;text-align:center;padding:24px;">
+        <div style="height:200px;background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>item.tipo === <span style="color:#c3e88d">'tech'</span><span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#7ec8e3">let</span> stock = <span style="color:#f0c674">consultarStock</span><span style="color:#94a3b8">(</span>talla<span style="color:#94a3b8">);</span><br>
@@ -599,7 +831,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1b1b2f 0%,#2d132c 50%,#3a1c3f 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1b1b2f 0%,#2d132c 50%,#3a1c3f 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">generarConsolidado</span><span style="color:#94a3b8">(</span>sheet<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#5b8c5a">// Auto PDF per advisor</span><br>
@@ -621,7 +853,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#0a2239 0%,#132e32 50%,#1a3a3a 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#0a2239 0%,#132e32 50%,#1a3a3a 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#7ec8e3">for</span> <span style="color:#94a3b8">(</span><span style="color:#7ec8e3">let</span> i = <span style="color:#f78c6c">0</span>; i &lt; datos.length; i++<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>datos[i][<span style="color:#f78c6c">0</span>] !== <span style="color:#c3e88d">'Total'</span><span style="color:#94a3b8">) {</span><br>
@@ -643,7 +875,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1a0a2e 0%,#2a1a4e 50%,#1e1247 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1a0a2e 0%,#2a1a4e 50%,#1e1247 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">generarInforme</span><span style="color:#94a3b8">() {</span><br>
 &nbsp;&nbsp;<span style="color:#7ec8e3">const</span> ss = <span style="color:#f0c674">getActiveSpreadsheet</span><span style="color:#94a3b8">();</span><br>
@@ -665,7 +897,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#1c1c1c 0%,#2d2d3a 50%,#1a1a2e 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#1c1c1c 0%,#2d2d3a 50%,#1a1a2e 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#7ec8e3">for</span> <span style="color:#94a3b8">(</span><span style="color:#7ec8e3">let</span> i = <span style="color:#f78c6c">1</span>; i &lt; datosBD.length; i++<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#c792ea">if</span> <span style="color:#94a3b8">(</span>fila[<span style="color:#f78c6c">0</span>] === docenteNombre<span style="color:#94a3b8">) {</span><br>
@@ -687,7 +919,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
       </div>
 
       <div class="port-card">
-        <div style="height:200px;background:linear-gradient(160deg,#0b1622 0%,#152238 50%,#1a2e50 100%);display:flex;align-items:center;padding:28px 32px;border-radius:12px 12px 0 0;">
+        <div style="height:200px;background:linear-gradient(160deg,#0b1622 0%,#152238 50%,#1a2e50 100%);display:flex;align-items:center;justify-content:center;color:white;padding:28px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;line-height:2.0;color:#e2e8f0;">
             <span style="color:#c792ea">function</span> <span style="color:#e2e8f0">agendarCalendar</span><span style="color:#94a3b8">(</span>org<span style="color:#94a3b8">) {</span><br>
 &nbsp;&nbsp;<span style="color:#5b8c5a">// Mass per organization</span><br>
@@ -818,9 +1050,55 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
   </div>
 
   <div style="text-align:center;padding:40px 0 80px;color:var(--muted);font-size:13px;">
+    <div class="print-cv-link">
+      <span data-lang="es">Si lo desea, puede ver la Hoja de vida por medio del siguiente enlace: <a href="https://robastianjop.github.io/my-cv/" target="_blank">https://robastianjop.github.io/my-cv/</a><br><br></span>
+      <span data-lang="en">If you wish, you can view the CV through the following link: <a href="https://robastianjop.github.io/my-cv/" target="_blank">https://robastianjop.github.io/my-cv/</a><br><br></span>
+    </div>
     © 2026 Juan Sebastián Rojas Penagos · Ibagué, Colombia
   </div>
 </section>
+
+<!-- PRINT FAB -->
+<button class="print-fab" onclick="openPrintModal()" title="Imprimir / Print">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+</button>
+
+<!-- PRINT MODAL -->
+<div class="print-overlay" id="printOverlay">
+  <div class="print-modal">
+    <h3 id="pmTitle">Configuración de impresión</h3>
+    <p class="pm-sub" id="pmSub">Elige idioma, tamaño de hoja y si deseas incluir el portafolio al exportar/imprimir la hoja de vida.</p>
+    <div class="pm-group">
+      <label id="pmLblLang">Idioma del documento</label>
+      <select id="pmLang">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <div class="pm-group">
+      <label id="pmLblSize">Tamaño de página</label>
+      <select id="pmSize">
+        <option value="A4">A4 (210 × 297 mm)</option>
+        <option value="letter">Carta / Letter (216 × 279 mm)</option>
+        <option value="legal">Oficio / Legal (216 × 356 mm)</option>
+      </select>
+    </div>
+    <div class="pm-group">
+      <label id="pmLblPort">Incluir portafolio</label>
+      <div class="pm-toggle">
+        <label class="pm-switch">
+          <input type="checkbox" id="pmPortfolio" checked>
+          <span class="pm-slider"></span>
+        </label>
+        <span class="pm-toggle-label" id="pmToggleText">Sí, incluir portafolio</span>
+      </div>
+    </div>
+    <div class="pm-actions">
+      <button class="pm-btn-cancel" onclick="closePrintModal()" id="pmBtnCancel">Cancelar</button>
+      <button class="pm-btn-print" onclick="doPrint()" id="pmBtnPrint">Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav-bar">
@@ -832,11 +1110,141 @@ body { font-family:'DM Sans',sans-serif; color:var(--ink); background:var(--bg);
 </nav>
 
 <script>
+/* ─── Language Switcher ─── */
+let currentLang = 'es';
 function setLang(lang) {
+  currentLang = lang;
   document.body.classList.toggle('lang-en', lang === 'en');
   document.getElementById('btn-es').classList.toggle('lang-active', lang === 'es');
   document.getElementById('btn-en').classList.toggle('lang-active', lang === 'en');
-  document.documentElement.lang = lang;
+  document.getElementById('pmLang').value = lang;
+  updateModalLabels(lang);
+}
+
+/* ─── Print Modal ─── */
+function openPrintModal() {
+  document.getElementById('pmLang').value = currentLang;
+  updateModalLabels(currentLang);
+  document.getElementById('printOverlay').classList.add('active');
+}
+function closePrintModal() {
+  document.getElementById('printOverlay').classList.remove('active');
+}
+document.getElementById('printOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closePrintModal();
+});
+
+function updateModalLabels(lang) {
+  const es = lang === 'es';
+  document.getElementById('pmTitle').textContent = es ? 'Configuración de impresión' : 'Print Settings';
+  document.getElementById('pmSub').textContent = es ? 'Elige idioma, tamaño de hoja y si deseas incluir el portafolio al exportar/imprimir la hoja de vida.' : 'Select the language, page size, and portfolio inclusion for exporting/printing the CV.';
+  document.getElementById('pmLblLang').textContent = es ? 'Idioma del documento' : 'Document language';
+  document.getElementById('pmLblSize').textContent = es ? 'Tamaño de página' : 'Page size';
+  document.getElementById('pmLblPort').textContent = es ? 'Incluir portafolio' : 'Include portfolio';
+  document.getElementById('pmBtnCancel').textContent = es ? 'Cancelar' : 'Cancel';
+  document.getElementById('pmBtnPrint').textContent = es ? 'Imprimir / Guardar PDF' : 'Print / Save as PDF';
+  const chk = document.getElementById('pmPortfolio').checked;
+  document.getElementById('pmToggleText').textContent = es
+    ? (chk ? 'Sí, incluir portafolio' : 'No, solo el CV')
+    : (chk ? 'Yes, include portfolio' : 'No, CV only');
+}
+document.getElementById('pmPortfolio').addEventListener('change', function() {
+  updateModalLabels(document.getElementById('pmLang').value);
+});
+document.getElementById('pmLang').addEventListener('change', function() {
+  updateModalLabels(this.value);
+});
+
+function doPrint() {
+  var lang = document.getElementById('pmLang').value;
+  var size = document.getElementById('pmSize').value;
+  var includePort = document.getElementById('pmPortfolio').checked;
+  var prevLang = currentLang;
+
+  /* 1 — Set language */
+  setLang(lang);
+
+  /* 2 — Page size CSS */
+  var pageCSS = '';
+  if (size === 'letter') {
+    pageCSS = '@page{size:letter;margin:0 0 5mm 0;} @page :first{margin:0;}';
+  } else if (size === 'legal') {
+    pageCSS = '@page{size:legal;margin:0 0 5mm 0;} @page :first{margin:0;}';
+  } else {
+    pageCSS = '@page{size:A4;margin:0 0 5mm 0;} @page :first{margin:0;}';
+  }
+
+  /* 3 — Size-specific CV spacing to guarantee 1-page fit
+     Legal (356mm): base styles are fine, no extra compression
+     A4 (297mm): moderate compression
+     Letter (279mm): tightest compression */
+  var fitCSS = '';
+  if (size === 'A4') {
+    fitCSS = ''
+      + '.cv-sidebar{padding:8mm 5.5mm 4mm 5.5mm !important;gap:2mm !important;}'
+      + '.cv-main{padding:6mm 7mm 4mm 7mm !important;gap:2mm !important;}'
+      + '.cv-photo{width:44mm !important;height:44mm !important;margin-bottom:2mm !important;}'
+      + '.cv-name-side{margin-bottom:1mm !important;}'
+      + '.side-section{margin-bottom:1.5mm !important;}'
+      + '.side-title{margin-bottom:1.2mm !important;padding-bottom:0.5mm !important;}'
+      + '.side-item{margin-bottom:0.7mm !important;line-height:1.35 !important;}'
+      + '.skill-bar-wrap{margin-bottom:1mm !important;}'
+      + '.skill-bar-label{margin-bottom:0.4mm !important;}'
+      + '.lang-row{margin-bottom:0.5mm !important;}'
+      + '.main-header{margin-bottom:1mm !important;}'
+      + '.main-header .tagline{line-height:1.4 !important;}'
+      + '.section-title{margin-bottom:1.5mm !important;}'
+      + '.exp-block{margin-bottom:2mm !important;}'
+      + '.exp-bullets{margin-top:0.5mm !important;}'
+      + '.exp-bullets li{margin-bottom:0.4mm !important;line-height:1.35 !important;}'
+      + '.edu-item{margin-bottom:1mm !important;}'
+      + '.cert-grid{gap:0.8mm !important;}'
+      + '.cert-item{padding:0.5mm 0 !important;line-height:1.35 !important;}'
+      + '.pub-item{line-height:1.35 !important;}';
+  } else if (size === 'letter') {
+    fitCSS = ''
+      + '.cv-sidebar{padding:6mm 5mm 3mm 5mm !important;gap:1.5mm !important;}'
+      + '.cv-main{padding:5mm 7mm 3mm 7mm !important;gap:1.5mm !important;}'
+      + '.cv-photo{width:40mm !important;height:40mm !important;margin-bottom:1.5mm !important;}'
+      + '.cv-name-side{margin-bottom:0.5mm !important;}'
+      + '.cv-name-side .subtitle{margin-top:0.5mm !important;}'
+      + '.side-section{margin-bottom:1mm !important;}'
+      + '.side-title{margin-bottom:0.8mm !important;padding-bottom:0.3mm !important;}'
+      + '.side-item{margin-bottom:0.5mm !important;line-height:1.3 !important;}'
+      + '.skill-bar-wrap{margin-bottom:0.7mm !important;}'
+      + '.skill-bar-label{margin-bottom:0.3mm !important;}'
+      + '.lang-row{margin-bottom:0.4mm !important;}'
+      + '.main-header{margin-bottom:0.5mm !important;}'
+      + '.main-header .tagline{line-height:1.35 !important;}'
+      + '.section-title{margin-bottom:1mm !important;}'
+      + '.exp-block{margin-bottom:1.5mm !important;}'
+      + '.exp-bullets{margin-top:0.4mm !important;}'
+      + '.exp-bullets li{margin-bottom:0.3mm !important;line-height:1.3 !important;}'
+      + '.edu-item{margin-bottom:0.8mm !important;}'
+      + '.cert-grid{gap:0.5mm !important;}'
+      + '.cert-item{padding:0.3mm 0 !important;line-height:1.3 !important;}'
+      + '.pub-item{line-height:1.3 !important;}';
+  }
+
+  var s = document.createElement('style');
+  s.id = 'dyn-print';
+  s.textContent = '@media print{' + pageCSS + fitCSS + '}';
+  document.head.appendChild(s);
+
+  /* 4 — Portfolio toggle */
+  document.body.classList.toggle('hide-portfolio-print', !includePort);
+
+  /* 5 — Print */
+  closePrintModal();
+  setTimeout(function() {
+    window.print();
+    setTimeout(function() {
+      var el = document.getElementById('dyn-print');
+      if (el) el.remove();
+      document.body.classList.remove('hide-portfolio-print');
+      setLang(prevLang);
+    }, 600);
+  }, 350);
 }
 </script>
 </body>
